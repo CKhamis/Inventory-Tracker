@@ -93,7 +93,7 @@ export default function Home() {
             aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
+            <Typography id="modal-modal-title" variant="h6" component="h2" color="black">
               Add Item
             </Typography>
             <Stack width="100%" direction={'row'} spacing={2}>
@@ -152,9 +152,14 @@ export default function Home() {
                   <Typography variant={'h3'} color={'#333'} textAlign={'center'}>
                     Quantity: {quantity}
                   </Typography>
-                  <Button variant="contained" onClick={() => removeItem(name)}>
-                    Remove
-                  </Button>
+                  <Stack direction="row" spacing={2}>
+                      <Button variant="contained" onClick={() => addItem(name)}>
+                        Add
+                      </Button>
+                      <Button variant="contained" onClick={() => removeItem(name)}>
+                        Remove
+                      </Button>
+                  </Stack>
                 </Box>
             ))}
           </Stack>
