@@ -32,6 +32,7 @@ export default function Home() {
   const [inventory, setInventory] = useState([])
   const [open, setOpen] = useState(false)
   const [itemName, setItemName] = useState('')
+  const [searchString, setSearchString] = useState('');
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
@@ -135,7 +136,7 @@ export default function Home() {
             </Typography>
           </Box>
           <Stack width="800px" height="300px" spacing={2} overflow={'auto'}>
-            {inventory.map(({name, quantity}) => (
+            {inventory.filter((item) => item.name.includes(searchString)).map(({name, quantity}) => (
                 <Box
                     key={name}
                     width="100%"
@@ -165,5 +166,5 @@ export default function Home() {
           </Stack>
         </Box>
       </Box>
-  )
+  );
 }
