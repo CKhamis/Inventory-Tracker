@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Box, Stack, Typography, Button, Modal, TextField } from '@mui/material'
+import {Box, Stack, Typography, Button, Modal, TextField, Grid} from '@mui/material'
 import { firestore } from '@/firebase'
 import {
   collection,
@@ -31,11 +31,15 @@ const style = {
 export default function Home() {
   const [inventory, setInventory] = useState([])
   const [open, setOpen] = useState(false)
+  const [openSearch, setOpenSearch] = useState(false)
   const [itemName, setItemName] = useState('')
+  const [searchText, setSearchText] = useState('')
   const [searchString, setSearchString] = useState('');
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+  const handleOpenSearch = () => setOpenSearch(true)
+  const handleCloseSearch = () => setOpenSearch(false)
 
   const updateInventory = async () => {
     const snapshot = query(collection(firestore, 'inventory'))
@@ -119,9 +123,50 @@ export default function Home() {
             </Stack>
           </Box>
         </Modal>
-        <Button variant="contained" onClick={handleOpen}>
-          Add New Item
-        </Button>
+        <Modal
+            open={openSearch}
+            onClose={handleCloseSearch}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2" color="black">
+              Search Items
+            </Typography>
+            <Stack width="100%" direction={'row'} spacing={2}>
+              <TextField
+                  id="outlined-basic"
+                  label="Item"
+                  variant="outlined"
+                  fullWidth
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+              />
+              <Button
+                  variant="outlined"
+                  onClick={() => {
+                    setSearchText('')
+                    setSearchString(searchText)
+                    handleCloseSearch()
+                  }}
+              >
+                Search
+              </Button>
+            </Stack>
+          </Box>
+        </Modal>
+        <Grid container justifyContent="center">
+          <Grid item>
+            <Button variant="contained" onClick={handleOpen}>
+              Add New Item
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button variant="contained" onClick={handleOpenSearch}>
+              Search Items
+            </Button>
+          </Grid>
+        </Grid>
         <Box border={'1px solid #333'}>
           <Box
               width="800px"
